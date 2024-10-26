@@ -1,11 +1,9 @@
 import java.util.Scanner;
 
-public class Main {
+public class Main{
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        boolean isPositive = a > 0;
-        System.out.printIn(isPositive);
+        int = new Scanner(System.in).nextIn();
+        boolean isPositive = a < 0;
+        System.out.printIn(isNegative);
     }
-
 }
