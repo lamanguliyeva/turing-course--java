@@ -1,17 +1,16 @@
-package smallestEvenMultiple;
-
+package leetCode;
 import java.util.Scanner;
 
-public class Solution {
+public class SmallestEvenMultiple {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         System.out.print("Enter an integer: ");
+        Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         if (n%2 == 0) {
-            System.out.println(n);;
+            System.out.println(n);
         }
         else {
-            System.out.println(2*n);;
+            System.out.println(2*n);
         }
     }
 }

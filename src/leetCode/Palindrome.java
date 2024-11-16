@@ -1,7 +1,8 @@
-package palindrome;
+package leetCode;
+
 import java.util.Scanner;
 
-public class Main {
+public class Palindrome {
     public static boolean isPalindrome(int x) {
         int a = x;
         int b = 0;
@@ -16,7 +17,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter an integer: ");
         int a = sc.nextInt();
-        Main solution = new Main();
-        System.out.println(solution.isPalindrome(a));
+        System.out.println(isPalindrome(a));
     }
 }
