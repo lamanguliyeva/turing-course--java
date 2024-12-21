@@ -35,7 +35,7 @@ public class Main {
 
 
         //if-else statement
-Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         System.out.println("Enter the value a: ");
         int a = sc.nextInt();
         boolean b = true;
