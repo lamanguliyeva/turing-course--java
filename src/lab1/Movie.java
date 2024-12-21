@@ -2,9 +2,9 @@ package lab1;
 
 public class Movie {
 
-    String name;
+    private String name;
 
-    double rating;
+    private double rating;
 
     public Movie(String name, double rating) {
         this.name = name;
