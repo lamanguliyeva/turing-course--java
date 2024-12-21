@@ -2,8 +2,10 @@ package lab1;
 import java.util.Scanner;
 
 public class Main {
+
     static void showMenu() {
-        System.out.println("Press 1 to input movies\n" +
+        System.out.println("\n" +
+                "Press 1 to input movies\n" +
                 "Press 2 to display movies and ratings\n" +
                 "Press 3 to input more movies\n" +
                 "Press 0 to exit\n" +
@@ -13,44 +15,6 @@ public class Main {
                 "Press 7 to delete a movie\n" +
                 "Press 8 to sort movies\n" +
                 "Enter your choice: ");
-    }
-
-    static Movie[] addMovies(int n, Scanner sc, Movie[] movies) {
-        Movie[] newMovies = new Movie[movies.length + n];
-        System.arraycopy(movies, 0, newMovies, 0, movies.length);
-        for (int i = movies.length; i < newMovies.length; i++) {
-            sc.nextLine();
-            System.out.println("Enter the name of movie " + (i + 1) + ": ");
-            String movieName = sc.nextLine();
-            System.out.println("Enter the rating of movie: ");
-            double movieRating = sc.nextDouble();
-            newMovies[i] = new Movie(movieName, movieRating);
-        }
-        return newMovies;
-    }
-
-    static double calcAvgRating(Movie[] movies) {
-        double avgRating = 0;
-        for (Movie movie : movies) {
-            avgRating += movie.getRating();
-        }
-        avgRating = avgRating / movies.length;
-        return avgRating;
-    }
-
-    static void findMaxAndMinRating(Movie[] movies) {
-        double maxRating = movies[0].getRating();
-        double minRating = movies[0].getRating();
-        for (Movie movie : movies) {
-            if (movie.getRating() > maxRating) {
-                maxRating = movie.getRating();
-            }
-            if (movie.getRating() < minRating) {
-                minRating = movie.getRating();
-            }
-        }
-        System.out.println("The movie with the maximum rating: " + maxRating);
-        System.out.println("The movie with the minimum rating: " + minRating);
     }
 
     public static void main(String[] args) {
@@ -74,8 +38,7 @@ public class Main {
                     movies = addMovies(numOfMovies, sc, movies);
                     break;
                 case 4:
-                    System.out.println("The average rating of the movies: " + calcAvgRating(movies));
-                    findMaxAndMinRating(movies);
+                    findStatistics(movies);
                     break;
                 case 5:
                     System.out.println("Enter the movie name: ");
@@ -107,6 +70,39 @@ public class Main {
 
             }
         }
+    }
+
+    static Movie[] addMovies(int n, Scanner sc, Movie[] movies) {
+        Movie[] newMovies = new Movie[movies.length + n];
+        System.arraycopy(movies, 0, newMovies, 0, movies.length);
+        for (int i = movies.length; i < newMovies.length; i++) {
+            sc.nextLine();
+            System.out.println("Enter the name of movie " + (i + 1) + ": ");
+            String movieName = sc.nextLine();
+            System.out.println("Enter the rating of movie: ");
+            double movieRating = sc.nextDouble();
+            newMovies[i] = new Movie(movieName, movieRating);
+        }
+        return newMovies;
+    }
+
+    static void findStatistics(Movie[] movies) {
+        double maxRating = movies[0].getRating();
+        double minRating = movies[0].getRating();
+        double avgRating = 0;
+        for (Movie movie : movies) {
+            if (movie.getRating() > maxRating) {
+                maxRating = movie.getRating();
+            }
+            if (movie.getRating() < minRating) {
+                minRating = movie.getRating();
+            }
+            avgRating += movie.getRating();
+        }
+        avgRating = avgRating / movies.length;
+        System.out.println("The average rating of the movies: " + avgRating);
+        System.out.println("The movie with the maximum rating: " + maxRating);
+        System.out.println("The movie with the minimum rating: " + minRating);
     }
 
     static void searchingMovie(String name, Movie[] movies) {
