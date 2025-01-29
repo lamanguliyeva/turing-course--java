@@ -3,6 +3,9 @@ import java.util.Scanner;
 
 public class Main {
 
+    private static Scanner sc = new Scanner(System.in);
+    private static Movie[] movies = new Movie[0];
+
     static void showMenu() {
         System.out.println("\n" +
                 "Press 1 to input movies\n" +
@@ -18,48 +21,37 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Movie[] movies = new Movie[0];
-        showMenu();
         while (true) {
+            showMenu();
             int choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case 1:
-                    movies = addMovies(3, sc, movies);
+                    movies = addMovies(3);
                     break;
                 case 2:
-                    for (Movie movie : movies) {
-                        System.out.println(movie.toString());
-                    }
+                    displayMovies();
                     break;
                 case 3:
                     System.out.println("how many additional movies will be added?");
                     int numOfMovies = sc.nextInt();
-                    movies = addMovies(numOfMovies, sc, movies);
+                    sc.nextLine();
+                    movies = addMovies(numOfMovies);
                     break;
                 case 4:
-                    findStatistics(movies);
+                    findStatistics();
                     break;
                 case 5:
-                    System.out.println("Enter the movie name: ");
-                    sc.nextLine();
-                    String name = sc.nextLine();
-                    searchingMovie(name, movies);
+                    searchingMovie();
                     break;
                 case 6:
-                    System.out.println("Enter the name of the movie whose rating you want to update: ");
-                    sc.nextLine();
-                    name = sc.nextLine();
-                    updateRatings(name, movies, sc);
+                    updateRating();
                     break;
                 case 7:
-                    System.out.println("Enter the name of movie that will be deleted: ");
-                    sc.nextLine();
-                    name = sc.nextLine();
-                    movies = deleteMovie(name, movies);
+                    deleteMovie();
                     break;
                 case 8:
-                    movies = sortMovies(movies);
+                    movies = sortMovies();
                     System.out.println("List sorted!!");
                     break;
                 case 0:
@@ -72,21 +64,32 @@ public class Main {
         }
     }
 
-    static Movie[] addMovies(int n, Scanner sc, Movie[] movies) {
+    static Movie[] addMovies(int n) {
         Movie[] newMovies = new Movie[movies.length + n];
         System.arraycopy(movies, 0, newMovies, 0, movies.length);
         for (int i = movies.length; i < newMovies.length; i++) {
-            sc.nextLine();
             System.out.println("Enter the name of movie " + (i + 1) + ": ");
             String movieName = sc.nextLine();
             System.out.println("Enter the rating of movie: ");
             double movieRating = sc.nextDouble();
+            sc.nextLine();
             newMovies[i] = new Movie(movieName, movieRating);
         }
         return newMovies;
     }
 
-    static void findStatistics(Movie[] movies) {
+    static void displayMovies() {
+        if (movies.length == 0) {
+            System.out.println("No movies in the list!");
+            return;
+        }
+        System.out.println("Movies and Ratings:");
+        for (Movie movie : movies) {
+            System.out.println(movie.getName() + " - " + movie.getRating());
+        }
+    }
+
+    static void findStatistics() {
         double maxRating = movies[0].getRating();
         double minRating = movies[0].getRating();
         double avgRating = 0;
@@ -105,68 +108,67 @@ public class Main {
         System.out.println("The movie with the minimum rating: " + minRating);
     }
 
-    static void searchingMovie(String name, Movie[] movies) {
-        for(Movie movie : movies) {
-            if(movie.getName().equals(name)) {
-                System.out.println("Rating of the searching movie: " + movie.getRating());
-                return;
+    static int indexMovie(String name) {
+        for (int i = 0; i < movies.length; i++) {
+            if (movies[i].getName().equals(name)) {
+                return i;
             }
         }
-        System.out.println("Movie is not found!");
+        return -1;
     }
 
-    static void updateRatings(String name, Movie[] movies, Scanner sc) {
-        for(Movie movie: movies) {
-            if(movie.getName().equals(name)) {
-                System.out.println("Enter the updating rating of this movie: ");
-                movie.setRating(sc.nextDouble());
-                return;
-            }
-        }
-        System.out.println("Movie is not found!");
-    }
+    static void searchingMovie() {
+        System.out.println("Enter the movie name: ");
+        String name = sc.nextLine();
+        int index = indexMovie(name);
 
-    static Movie[] deleteMovie(String movieName,Movie[] movies) {
-        boolean found = false;
-        for (Movie movie : movies) {
-            if (movie.getName().equals(movieName)) {
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            System.out.println("Movie is not found");
-            return movies;
+        if (index != -1) {
+            System.out.println("Movie found! Rating: " + movies[index].getRating());
         } else {
-            System.out.println("Movie is deleted");
+            System.out.println("Movie not found!");
         }
-        Movie[] newMovies = new Movie[movies.length - 1];
-        for(int i = 0, j = 0; i < movies.length; i++, j++) {
-            if(movies[i].getName().equals(movieName)) {
-                j--;
-                continue;
-            }
-            newMovies[j] = movies[i];
-        }
-        return newMovies;
     }
 
-    static Movie[] sortMovies(Movie[] movies) {
-        for(int i = 0; i < movies.length - 1; i++) {
-            boolean swapped = false;
-            for(int j = 0; j < movies.length - i - 1; j++) {
-                if(movies[j].getRating() > movies[j + 1].getRating()) {
+    static void updateRating() {
+        System.out.println("Enter the name of the movie whose rating you want to update: ");
+        String name = sc.nextLine();
+        int index = indexMovie(name);
+
+        if (index != -1) {
+            System.out.println("Enter the updated rating of the movie: ");
+            movies[index].setRating(sc.nextDouble());
+        } else {
+            System.out.println("Movie is not found!");
+        }
+
+    }
+
+    static void deleteMovie() {
+        System.out.println("Enter the name of the movie to delete: ");
+        String name = sc.nextLine();
+        int index = indexMovie(name);
+
+        if (index != -1) {
+            Movie[] newMovies = new Movie[movies.length - 1];
+            System.arraycopy(movies, 0, newMovies, 0, index);
+            System.arraycopy(movies, index + 1, newMovies, index, movies.length - index - 1);
+            movies = newMovies;
+            System.out.println("Movie is deleted!");
+        } else {
+            System.out.println("Movie is not found!");
+        }
+    }
+
+    static Movie[] sortMovies() {
+        for (int i = 0; i < movies.length - 1; i++) {
+            for (int j = 0; j < movies.length - i - 1; j++) {
+                if (movies[j].getRating() > movies[j + 1].getRating()) {
                     Movie temp = movies[j];
                     movies[j] = movies[j + 1];
                     movies[j + 1] = temp;
-                    swapped = true;
                 }
-            }
-            if(!swapped) {
-                return movies;
             }
         }
         return movies;
     }
-
 }
