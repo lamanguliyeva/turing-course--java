@@ -13,7 +13,7 @@ public class SneakyNumbers {
         }
 
         int[] sneakyNumbers = SneakyNumbers(nums);
-        System.out.println(sneakyNumbers[0] + sneakyNumbers[1]);
+        System.out.println(sneakyNumbers[0] + ", " + sneakyNumbers[1]);
     }
 
         public static int[] SneakyNumbers (int[] nums) {
