@@ -1,7 +1,7 @@
-package lesson3;
+package controlFlow;
 import java.util.Scanner;
 
-public class ControlFlow {
+public class ControlFlowDemo {
     public static void main(String[] args) {
 
         //using scanner
@@ -12,7 +12,6 @@ public class ControlFlow {
         System.out.println("Enter your age: ");
         int b = sc1.nextInt();
         System.out.println("Your name is " + a + "\nYour age is " + b);
-
 
         /*//if statement
         Scanner sc = new Scanner(System.in);
