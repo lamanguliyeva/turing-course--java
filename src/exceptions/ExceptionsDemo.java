@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class ExceptionsDemo {
+
     public static void main(String[] args) {
         String input = inputString();
         int result = computeSequence(input);
